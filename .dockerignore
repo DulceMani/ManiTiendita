@@ -1,8 +1,10 @@
 node_modules
 npm-debug.log
-Dockerfile
+Dockerfile.frontend
 yarn-error.log
+docker-compose.yaml
 
+Dockerfile.backend
 __pycache__
 *.pyc
 *.pyo

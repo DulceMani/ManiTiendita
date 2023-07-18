@@ -11,8 +11,11 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   backend:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    build: 
+      dockerfile: ./Dockerfile.backend
+      context: ./backend
+
+    command: python backend/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/api
     ports:
@@ -24,11 +27,19 @@ services:
     depends_on:
       - db
   frontend:
-    build: .
-    command: npm run dev
+    build: 
+      dockerfile: ./Dockerfile.frontend
+      context: ./frontend
+    #command: ["npm", "run", "dev"]
     ports:
-      - '3000:3000'
+      - '3001:3000'
     volumes:
-      - .:/app/ai
+      - .:/app/
+      - exclude:/app/node_modules/
+    environment:
+      - CHOKIDAR_USEPOLLING=true  
+    stdin_open: true
     depends_on:
       - backend
+volumes:
+  exclude:
